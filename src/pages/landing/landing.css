@@ -1,0 +1,15 @@
+.landingWrapper {
+  background-color: rgb(233, 231, 231);
+  /* height: 100vh; */
+  margin: 0;
+}
+
+@media (max-width: 290px) {
+  .landingWrapper {
+    background-color: white;
+  }
+}
+
+.landingContainer {
+  display: flex;
+}
