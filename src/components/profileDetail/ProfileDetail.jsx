@@ -1,6 +1,7 @@
 import React from "react";
-import Post from "../post/Post";
+// import Post from "../post/Post";
 import "./profileDetail.css";
+import { Link } from "react-router-dom";
 
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
@@ -33,6 +34,12 @@ const ProfileDetail = () => {
         <p>jackrandall@example.com</p>
         <span>Follow</span>
       </div>
+
+      <Link to="/login">
+        <div className="profileLogout">
+          <button>Logout of your account</button>
+        </div>
+      </Link>
 
       {/* Posts */}
 

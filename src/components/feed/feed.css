@@ -19,8 +19,8 @@
 }
 
 .myReel img {
-  width: 250px;
-  min-width: 50px;
+  width: 250px !important;
+  min-width: 50px !important;
   height: 350px;
   border-radius: 15px;
   object-fit: cover;

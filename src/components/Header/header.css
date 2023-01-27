@@ -92,7 +92,7 @@
   .headerFirst {
     flex: 1;
   }
-  .headerLast {
+  .headerLast .headerIcons {
     display: none;
   }
   .headerFirst .headerInput input {
@@ -110,7 +110,7 @@
   .headerFirst {
     flex: 1;
   }
-  .headerLast {
+  .headerLast .headerIcons {
     display: none;
   }
   .headerFirst .headerInput {
@@ -121,7 +121,7 @@
   }
 
   .headerFirst .valerianIcons {
-    flex: 0.5;
+    display: none;
   }
 }
 
