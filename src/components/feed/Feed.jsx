@@ -4,11 +4,22 @@ import "./feed.css";
 
 import dummyData from "../../dummyData";
 import Create from "../Create/Create";
+import { useSelector, useDispatch } from "react-redux";
+import { getPosts } from "../../features/posts/postSlice";
 
 const Feed = () => {
+  const { posts, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.posts
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <div className="feedWrapper">
-      <div className="feedContainer">
+      <div className="feedContainer hide-scrollbar">
         <div className="myReel">
           <img
             src="https://images.pexels.com/photos/1699159/pexels-photo-1699159.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -69,7 +80,9 @@ const Feed = () => {
         <Create />
       </div>
 
-      {dummyData.map((data) => (
+      {console.log(posts)}
+
+      {posts?.map((data) => (
         <div key={data.id}>
           <Post data={data} />
         </div>

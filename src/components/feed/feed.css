@@ -190,6 +190,13 @@
     width: 500px;
     margin-bottom: 20px;
   }
+  .myReel img {
+    width: 250px !important;
+    min-width: 50px !important;
+    height: 350px;
+    border-radius: 15px;
+    object-fit: cover;
+  }
 }
 
 @media (max-width: 420px) {

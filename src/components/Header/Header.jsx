@@ -7,8 +7,13 @@ import { AiOutlineAppstore, AiOutlineBell } from "react-icons/ai";
 import { MdOutlinePersonOutline, MdOutlineMessage } from "react-icons/md";
 
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const Header = () => {
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
   return (
     <div className="headerWrapper">
       <div className="headerContainer">
@@ -57,15 +62,28 @@ const Header = () => {
             <MdOutlineMessage style={{ cursor: "pointer", fontSize: "20px" }} />
             <AiOutlineBell style={{ cursor: "pointer", fontSize: "20px" }} />
           </div>
-          <Link to={`/profile/23`} style={{ textDecoration: "none" }}>
-            <div className="headerAvatar">
-              <img
-                src="https://images.pexels.com/photos/1270076/pexels-photo-1270076.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt="man"
-              />
-              <span>John Doe</span>
-            </div>
-          </Link>
+          {!user ? (
+            <Link to={`/login`} style={{ textDecoration: "none" }}>
+              <div className="headerAvatar">
+                <img
+                  src="https://images.pexels.com/photos/911738/pexels-photo-911738.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                  alt="profile"
+                />
+                <span>Login Now</span>
+              </div>
+            </Link>
+          ) : (
+            <Link
+              to={`/profile/${user?._id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="headerAvatar">
+                <img src={user?.profile} alt={user?.name} />
+                <span style={{ color: "black" }}>{user?.name}</span>
+              </div>
+            </Link>
+          )}
+          {/* <h1>Lucy</h1> */}
         </div>
       </div>
     </div>

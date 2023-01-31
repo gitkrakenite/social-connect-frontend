@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import Post from "../post/Post";
 import "./profileDetail.css";
 import { Link } from "react-router-dom";
@@ -10,7 +10,43 @@ import {
   AiOutlineShareAlt,
 } from "react-icons/ai";
 
+import { register, reset, logout } from "../../features/auth/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import axios from "../../axios";
+import moment from "moment";
+
 const ProfileDetail = () => {
+  const [user, setUser] = useState();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let { id } = useParams();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
+  // const { user, isLoading, isError, isSuccess, message } = useSelector(
+  //   (state) => state.auth
+  // );
+
+  const { posts, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.posts
+  );
+
+  const fetchUser = async () => {
+    // console.log(id);
+    const response = await axios.get(`/user/${id}`);
+    setUser(response.data);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <div className="profileDetailWrapper">
       <div className="profileCoverImage">
@@ -22,79 +58,75 @@ const ProfileDetail = () => {
         </div>
 
         <div className="profileUserImg">
-          <img
-            src="https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
+          <img src={user?.profile} alt={user?.name} />
         </div>
       </div>
 
       <div className="profileDetails">
-        <h4>Jack Randall</h4>
-        <p>jackrandall@example.com</p>
+        <h4>{user?.name}</h4>
+        <p>{user?.email}</p>
         <span>Follow</span>
       </div>
 
-      <Link to="/login">
-        <div className="profileLogout">
-          <button>Logout of your account</button>
-        </div>
-      </Link>
+      <div className="profileLogout">
+        <button onClick={handleLogout}>Logout of your account</button>
+      </div>
 
       {/* Posts */}
 
-      <div className="postWrapper" style={{ marginTop: "1em" }}>
-        <div className="postCard">
-          <div className="postCardTop">
-            <div className="postCardTopLeft">
-              <div className="imgComp">
-                <img
-                  src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  alt=""
-                />
-              </div>
-              <div className="authComp">
-                <p>Joh Doe</p>
+      {/* if posts.user === user.name */}
 
-                <span>2 mins ago</span>
+      {/* {posts?.user === user?.name ? <p>posts</p> : <p>No posts</p>} */}
+
+      {posts?.map((item) => (
+        <div key={item.id}>
+          {item?.user === user?.name ? (
+            <div className="postWrapper" style={{ marginTop: "1em" }}>
+              <div className="postCard">
+                <div className="postCardTop">
+                  <div className="postCardTopLeft">
+                    <div className="imgComp">
+                      <img src={item.profile} alt="" />
+                    </div>
+                    <div className="authComp">
+                      <p>{item.user}</p>
+
+                      <span>{moment(item.createdAt).fromNow()}</span>
+                    </div>
+                  </div>
+                  <div className="postCardTopRight">
+                    <FiMoreHorizontal />
+                  </div>
+                </div>
+
+                {/*  */}
+                <div className="postCardMainImage">
+                  <img src={item.image} alt="" />
+                </div>
+                {/*  */}
+                <div className="postCardTitle">{item.title}</div>
+                {/*  */}
+                <div className="postCardDetail">
+                  <div className="postCardTile love">
+                    <AiFillHeart className="postLove" />
+                    <span>20 Likes</span>
+                  </div>
+                  <div className="postCardTile comment">
+                    <AiOutlineMessage className="postComment" />
+                    <span>2 comments</span>
+                  </div>
+                  <div className="postCardTile share">
+                    <AiOutlineShareAlt className="postShare" />
+                    <span>Share</span>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="postCardTopRight">
-              <FiMoreHorizontal />
-            </div>
-          </div>
-
-          {/*  */}
-          <div className="postCardMainImage">
-            <img
-              src="https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
-          </div>
-          {/*  */}
-          <div className="postCardTitle">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque,
-            dolorem illum sapiente in laudantium maxime? Veritatis voluptatem ab
-            nihil, incidunt ut omnis adipisci doloremque ipsa. Totam deserunt
-            perspiciatis debitis iure?
-          </div>
-          {/*  */}
-          <div className="postCardDetail">
-            <div className="postCardTile love">
-              <AiFillHeart className="postLove" />
-              <span>20 Likes</span>
-            </div>
-            <div className="postCardTile comment">
-              <AiOutlineMessage className="postComment" />
-              <span>2 comments</span>
-            </div>
-            <div className="postCardTile share">
-              <AiOutlineShareAlt className="postShare" />
-              <span>Share</span>
-            </div>
-          </div>
+          ) : (
+            <p></p>
+          )}
         </div>
-      </div>
+      ))}
 
       {/* end of posts */}
     </div>

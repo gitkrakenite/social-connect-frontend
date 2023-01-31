@@ -20,22 +20,38 @@ import { BsBook } from "react-icons/bs";
 import { RiMovie2Line } from "react-icons/ri";
 
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const Sidebar = () => {
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
   return (
     <div className="sidebarWrapper">
       <div className="sidebarContainer">
         <div className="sideTop">
           <ul>
-            <Link to={`/profile/23`} style={{ textDecoration: "none" }}>
-              <li>
-                <img
-                  src="https://images.pexels.com/photos/1680172/pexels-photo-1680172.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  alt=""
-                />
-                <span>John Doe</span>
-              </li>
-            </Link>
+            {!user ? (
+              <Link to={`/login`} style={{ textDecoration: "none" }}>
+                <li>
+                  <img
+                    src="https://images.pexels.com/photos/911738/pexels-photo-911738.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                    alt=""
+                  />
+                  <span>Login Now</span>
+                </li>
+              </Link>
+            ) : (
+              <Link
+                to={`/profile/${user?._id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <li>
+                  <img src={user?.profile} alt={user?.name} />
+                  <span>{user?.name}</span>
+                </li>
+              </Link>
+            )}
             <li>
               <BsPeople style={{ fontSize: "24px", color: "blue" }} />
               <span>Friends</span>

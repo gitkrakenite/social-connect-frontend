@@ -8,6 +8,7 @@ import {
 } from "react-icons/ai";
 
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const Post = ({ data }) => {
   const [showComment, setShowComment] = useState(false);
@@ -18,18 +19,21 @@ const Post = ({ data }) => {
 
   return (
     <div className="postWrapper">
-      <div className="postContainer">
+      <div className="postContainer" key={data._id}>
         <div className="postCard">
           <div className="postCardTop">
             <div className="postCardTopLeft">
               <div className="imgComp">
-                <img src={data.profile} alt={data.author} />
+                <img src={data.profile} alt={data.user} />
               </div>
               <div className="authComp">
-                <Link to={`/profile/34`} style={{ textDecoration: "none" }}>
-                  <p>{data.author}</p>
+                <Link
+                  to={`/profile/${data.userId}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <p>{data.user}</p>
                 </Link>
-                <span>2 mins ago</span>
+                <span>{moment(data.createdAt).fromNow()}</span>
               </div>
             </div>
             <div className="postCardTopRight">
@@ -39,7 +43,7 @@ const Post = ({ data }) => {
 
           {/*  */}
           <div className="postCardMainImage">
-            <img src={data.pic} alt="" />
+            <img src={data.image} alt="" />
           </div>
           {/*  */}
           <div className="postCardTitle">{data.title}</div>
@@ -51,7 +55,12 @@ const Post = ({ data }) => {
             </div>
             <div className="postCardTile comment" onClick={handleShowComment}>
               <AiOutlineMessage className="postComment" />
-              <span>2 comments</span>
+              <span>
+                {" "}
+                {data.comments
+                  ? data.comments.length + " comments"
+                  : "0 comments"}{" "}
+              </span>
             </div>
             <div className="postCardTile share">
               <AiOutlineShareAlt className="postShare" />
