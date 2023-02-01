@@ -79,6 +79,7 @@
 
 .postCardDetail {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 20px;
   margin-top: 15px;
@@ -144,6 +145,18 @@
 }
 .postCardTile .postShare:hover {
   color: #d1179c;
+}
+
+.postDeleteWrapper {
+  color: red;
+  cursor: pointer;
+}
+
+.postCardTile .postDelete {
+  color: red;
+}
+.postCardTile .postDelete:hover {
+  color: rgb(206, 23, 23);
 }
 
 /* coomets */

@@ -9,12 +9,35 @@ import {
 
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { BiLocationPlus, BiTrashAlt } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePost } from "../../features/posts/postSlice";
+import { toast } from "react-hot-toast";
 
 const Post = ({ data }) => {
   const [showComment, setShowComment] = useState(false);
 
+  const { posts } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
   const handleShowComment = () => {
     setShowComment(!showComment);
+  };
+
+  const handlePostDelete = (id) => {
+    if (!id) {
+      toast.error("Post does not exist");
+      return;
+    }
+
+    try {
+      dispatch(deletePost(id));
+      toast.success("Deleted succesfully");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -47,6 +70,10 @@ const Post = ({ data }) => {
           </div>
           {/*  */}
           <div className="postCardTitle">{data.title}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <BiLocationPlus className="imgAddIco" />
+            {data.location}
+          </div>
           {/*  */}
           <div className="postCardDetail">
             <div className="postCardTile love">
@@ -65,6 +92,17 @@ const Post = ({ data }) => {
             <div className="postCardTile share">
               <AiOutlineShareAlt className="postShare" />
               <span>Share</span>
+            </div>
+            <div
+              className="postCardTile postDeleteWrapper"
+              onClick={() => handlePostDelete(data._id)}
+            >
+              {data.user === user?.name && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <BiTrashAlt className="postDelete" />
+                  <span>Delete</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

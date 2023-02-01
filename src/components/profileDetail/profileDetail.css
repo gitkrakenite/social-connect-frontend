@@ -34,6 +34,25 @@
   cursor: pointer;
 }
 
+.profileLoginNow {
+  background-color: #4267b2;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.profileLoginNow span {
+  padding: 10px;
+  color: white;
+  background: transparent;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
 .profileLogout button {
   padding: 10px;
   color: white;

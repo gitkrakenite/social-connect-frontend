@@ -18,7 +18,7 @@ import axios from "../../axios";
 import moment from "moment";
 
 const ProfileDetail = () => {
-  const [user, setUser] = useState();
+  const [navuser, setNavUser] = useState();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,10 +37,12 @@ const ProfileDetail = () => {
     (state) => state.posts
   );
 
+  const { user } = useSelector((state) => state.auth);
+
   const fetchUser = async () => {
     // console.log(id);
     const response = await axios.get(`/user/${id}`);
-    setUser(response.data);
+    setNavUser(response.data);
   };
 
   useEffect(() => {
@@ -58,19 +60,36 @@ const ProfileDetail = () => {
         </div>
 
         <div className="profileUserImg">
-          <img src={user?.profile} alt={user?.name} />
+          <img src={navuser?.profile} alt={navuser?.name} />
         </div>
       </div>
 
       <div className="profileDetails">
-        <h4>{user?.name}</h4>
-        <p>{user?.email}</p>
+        <h4>{navuser?.name}</h4>
+        <p>{navuser?.email}</p>
         <span>Follow</span>
       </div>
 
-      <div className="profileLogout">
-        <button onClick={handleLogout}>Logout of your account</button>
-      </div>
+      {user ? (
+        <div className="profileLogout" onClick={handleLogout}>
+          <button>Logout of your account</button>
+        </div>
+      ) : (
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <div
+            style={{
+              padding: "10px",
+              backgroundColor: "#eb4034",
+              color: "white",
+              marginTop: "1em",
+              textAlign: "center",
+              cursor: "pointer",
+            }}
+          >
+            <span style={{ padding: "10px" }}>Login or create an account</span>
+          </div>
+        </Link>
+      )}
 
       {/* Posts */}
 
@@ -80,7 +99,7 @@ const ProfileDetail = () => {
 
       {posts?.map((item) => (
         <div key={item.id}>
-          {item?.user === user?.name ? (
+          {item?.user === navuser?.name ? (
             <div className="postWrapper" style={{ marginTop: "1em" }}>
               <div className="postCard">
                 <div className="postCardTop">

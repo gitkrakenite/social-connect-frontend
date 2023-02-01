@@ -5,82 +5,116 @@ import "./feed.css";
 import dummyData from "../../dummyData";
 import Create from "../Create/Create";
 import { useSelector, useDispatch } from "react-redux";
-import { getPosts } from "../../features/posts/postSlice";
+import { getPosts, getReels, createReel } from "../../features/posts/postSlice";
+import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Feed = () => {
-  const { posts, isLoading, isError, isSuccess, message } = useSelector(
+  const { posts, reels, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.posts
   );
+
+  const [showReel, setShowReel] = useState(false);
+  const [image, setImage] = useState("");
+
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const handleCreateReel = (e) => {
+    e.preventDefault();
+    if (!image) {
+      toast.error("Image URL needed");
+      return;
+    } else {
+      try {
+        const reelData = { image };
+        dispatch(createReel(reelData));
+        setImage("");
+        toast.success("reel created");
+      } catch (error) {
+        toast.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getReels());
+  }, [reels]);
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, [posts]);
+
+  // useEffect(() => {
+  //   dispatch(getPosts());
+  //   dispatch(getReels());
+  // }, []);
 
   return (
     <div className="feedWrapper">
       <div className="feedContainer hide-scrollbar">
         <div className="myReel">
           <img
-            src="https://images.pexels.com/photos/1699159/pexels-photo-1699159.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            src={
+              user?.profile ||
+              "https://images.pexels.com/photos/1883386/pexels-photo-1883386.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            }
             alt=""
           />
 
           <div className="bottomLeft">
-            <span>+</span>
+            {user ? (
+              <span onClick={() => setShowReel(!showReel)}>+</span>
+            ) : (
+              <span>login</span>
+            )}
           </div>
         </div>
+        {reels?.map((reel) => (
+          <div className="myReel" key={reel._id}>
+            <img src={reel.image} alt="" />
+
+            <div className="bottomLeft">
+              <Link
+                to={`/profile/${reel.userId}`}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <p>{reel.user}</p>
+              </Link>
+            </div>
+          </div>
+        ))}
+
         {/*  */}
-        <div className="myReel">
-          <img
-            src="https://images.pexels.com/photos/1812402/pexels-photo-1812402.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
-
-          <div className="bottomLeft">
-            <p>Mia Hemsworth</p>
-          </div>
-        </div>
-        {/*  */}
-        <div className="myReel">
-          <img
-            src="https://images.pexels.com/photos/1267693/pexels-photo-1267693.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
-
-          <div className="bottomLeft">
-            <p>Jane Ledendorff</p>
-          </div>
-        </div>
-        {/*  */}
-        <div className="myReel">
-          <img
-            src="https://images.pexels.com/photos/3063910/pexels-photo-3063910.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
-
-          <div className="bottomLeft">
-            <p>Jane Attenbourgh</p>
-          </div>
-        </div>
-        {/*  */}
-        <div className="myReel">
-          <img
-            src="https://images.pexels.com/photos/3063910/pexels-photo-3063910.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
-
-          <div className="bottomLeft">
-            <p>Jane Attenbourgh</p>
-          </div>
-        </div>
       </div>
+
+      {/* create reel form */}
+      {showReel ? (
+        <div className="createReelFormWrapper">
+          {/* {alert("show")} */}
+          <form onSubmit={handleCreateReel}>
+            <div style={{ flex: 0.7 }}>
+              <input
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                type="text"
+                placeholder="Place the photo url here"
+              />
+            </div>
+            <div style={{ flex: 0.3 }} className="reelSpanBtn">
+              <p type="submit" onClick={handleCreateReel}>
+                Create Reel
+              </p>
+            </div>
+          </form>
+        </div>
+      ) : (
+        <></>
+      )}
 
       <div>
         <Create />
       </div>
-
-      {console.log(posts)}
 
       {posts?.map((data) => (
         <div key={data.id}>

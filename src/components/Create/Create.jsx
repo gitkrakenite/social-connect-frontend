@@ -6,6 +6,8 @@ import { BsFillPersonCheckFill } from "react-icons/bs";
 import { BiLocationPlus } from "react-icons/bi";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
+import Spinner from "../Spinner";
+import { createPost } from "../../features/posts/postSlice";
 
 const Create = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
@@ -65,6 +67,11 @@ const Create = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!user) {
+      toast.error("Please login or register");
+      return;
+    }
+
     if (!title || !image || !location) {
       toast.error("Title, image and location needed");
       return;
@@ -72,7 +79,7 @@ const Create = () => {
       try {
         const postData = { title, image, location };
         // console.log(profile);
-        // dispatch(createReport(reportData));
+        dispatch(createPost(postData));
         // console.log(reportData);
         handleClear();
 
@@ -135,9 +142,13 @@ const Create = () => {
               <p style={{ color: "gray !important" }}>Tag Someone</p>
             </div>
           </div>
-          <div className="createImageLast">
-            <button onClick={handleSubmit}>Share</button>
-          </div>
+          {loading ? (
+            <Spinner message="Please wait" />
+          ) : (
+            <div className="createImageLast">
+              <button onClick={handleSubmit}>Share</button>
+            </div>
+          )}
         </div>
       </form>
     </div>
