@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPosts, getReels, createReel } from "../../features/posts/postSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import moment from "moment";
 
 const Feed = () => {
   const { posts, reels, isLoading, isError, isSuccess, message } = useSelector(
@@ -79,7 +80,9 @@ const Feed = () => {
                 to={`/profile/${reel.userId}`}
                 style={{ textDecoration: "none", color: "white" }}
               >
-                <p>{reel.user}</p>
+                <p>
+                  {reel.user} | {moment(reel.createdAt).fromNow()}
+                </p>
               </Link>
             </div>
           </div>
