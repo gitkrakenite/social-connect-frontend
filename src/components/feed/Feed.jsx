@@ -40,11 +40,8 @@ const Feed = () => {
 
   useEffect(() => {
     dispatch(getReels());
-  }, [reels]);
-
-  useEffect(() => {
     dispatch(getPosts());
-  }, [posts]);
+  }, [dispatch, posts]);
 
   // useEffect(() => {
   //   dispatch(getPosts());
@@ -67,7 +64,7 @@ const Feed = () => {
             {user ? (
               <span onClick={() => setShowReel(!showReel)}>+</span>
             ) : (
-              <span>login</span>
+              <span>"{}"</span>
             )}
           </div>
         </div>
