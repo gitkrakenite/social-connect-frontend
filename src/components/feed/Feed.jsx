@@ -43,13 +43,8 @@ const Feed = () => {
     dispatch(getPosts());
   }, [dispatch, posts]);
 
-  // useEffect(() => {
-  //   dispatch(getPosts());
-  //   dispatch(getReels());
-  // }, []);
-
   return (
-    <div className="feedWrapper">
+    <div className=" flex-1 md:flex-[0.5] px-2">
       {/* reel container */}
       <div className="overflow-x-auto hide-scrollbar  whitespace-nowrap">
         <div className="inline-flex">
@@ -80,7 +75,7 @@ const Feed = () => {
                 alt=""
                 className="w-64 h-64 mr-4 object-cover rounded-md"
               />
-              <div className="bottomLeft">
+              {/* <div className="bottomLeft">
                 <Link
                   to={`/profile/${reel.userId}`}
                   style={{ textDecoration: "none", color: "white" }}
@@ -89,7 +84,7 @@ const Feed = () => {
                     {reel.user} | {moment(reel.createdAt).fromNow()}
                   </p>
                 </Link>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

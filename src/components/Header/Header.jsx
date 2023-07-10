@@ -43,12 +43,6 @@ const Header = () => {
               }}
             />
           </div>
-          <div className="headerInput">
-            <form>
-              <input type="text" placeholder="Search posts " />
-              <button type="submit"></button>
-            </form>
-          </div>
         </div>
         {/*  */}
         <div className="headerLast">

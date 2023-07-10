@@ -3,7 +3,7 @@
   padding: 1em;
   margin-bottom: 20px;
   border-radius: 10px;
-  width: 97%;
+  width: 100%;
 }
 
 .createText {
@@ -96,7 +96,7 @@
   }
 }
 
-@media (max-width: 550px) {
+/* @media (max-width: 550px) {
   .createWrapper {
     background-color: #fff;
     padding: 1em;
@@ -104,7 +104,7 @@
     border-radius: 10px;
     width: 90%;
   }
-}
+} */
 
 .createImageFirst .imgAdd:hover {
   color: black;

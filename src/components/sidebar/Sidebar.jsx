@@ -27,7 +27,7 @@ const Sidebar = () => {
     (state) => state.auth
   );
   return (
-    <div className="sidebarWrapper">
+    <div className=" hidden lg:flex flex-[0.2] px-[10px]">
       <div className="sidebarContainer">
         <div className="sideTop">
           <ul>
