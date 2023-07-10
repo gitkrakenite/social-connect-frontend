@@ -1,5 +1,5 @@
 import React from "react";
-import { Triangle } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 
 const Spinner = ({ message }) => {
   return (
@@ -14,11 +14,11 @@ const Spinner = ({ message }) => {
         height: "100%",
       }}
     >
-      <Triangle
+      <ThreeDots
         height="80"
         width="80"
         radius="9"
-        color="#d12150"
+        color="#1385ab"
         ariaLabel="loading"
         wrapperStyle
         wrapperClass

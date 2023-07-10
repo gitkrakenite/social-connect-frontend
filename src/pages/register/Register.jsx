@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 import { BsCloudUpload } from "react-icons/bs";
-import "./register.css";
+// import "./register.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { register, reset } from "../../features/auth/authSlice";
@@ -37,8 +37,9 @@ const Register = () => {
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   // Convert image into url using cloudinary
+  const [upload, setUpload] = useState(false);
   const postDetails = (pics) => {
-    setLoading(true);
+    setUpload(true);
     if (pics === null || undefined) {
       toast.error("Please select an Image");
       alert("No image selected");
@@ -73,12 +74,12 @@ const Register = () => {
             return;
           }
           setProfile(data.url);
-          setLoading(false);
+          setUpload(false);
           console.log(data.url);
         })
         .catch((err) => {
           console.log(err);
-          setLoading(false);
+          setUpload(false);
         });
     } else {
       toast({
@@ -88,7 +89,7 @@ const Register = () => {
         isClosable: true,
         position: "bottom",
       });
-      setLoading(false);
+      setUpload(false);
     }
   };
 
@@ -112,19 +113,23 @@ const Register = () => {
   };
 
   return (
-    <div className="registerWrapper">
-      <div className="registerContainer">
-        <div className="imageSlide">
-          <img
-            src="https://images.pexels.com/photos/3228812/pexels-photo-3228812.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
-        </div>
-        <div className="formSlide">
-          <h1>Valerian Chat</h1>
+    <div className="w-full h-[100vh]">
+      <img
+        src="https://images.pexels.com/photos/13458334/pexels-photo-13458334.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+        alt="Background Placeholder"
+        className="w-full h-[100vh] object-cover"
+      />
 
-          <h2>Register</h2>
-          <form onSubmit={handleSubmit}>
+      {/* overlay div */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,.6)]" />
+      <div className="absolute w-full h-full top-0 flex flex-col justify-center items-center text-white">
+        {/* content */}
+        <div className=" w-[98%] xl:w-[40%] 2xl:w-[30%]">
+          <h2 className="mb-[10px] text-center text-3xl">Welcome To CONNECT</h2>
+          <p className="mb-[20px] text-zinc-300 text-lg">
+            Please Create An Account
+          </p>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
             <input
               type="text"
               name=""
@@ -134,6 +139,7 @@ const Register = () => {
               onChange={(e) => {
                 setName(e.target.value);
               }}
+              className="bg-transparent outline-none border-2 border-gray-300 p-[8px] rounded-md"
             />
             <input
               type="email"
@@ -144,19 +150,46 @@ const Register = () => {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              className="bg-transparent outline-none border-2 border-gray-300 p-[8px] rounded-md"
             />
 
-            <div className="fileUpload">
-              <BsCloudUpload className="upload" />
+            <div className="">
+              {upload ? (
+                <Spinner message="Uploading Profile" />
+              ) : (
+                <>
+                  {profile ? (
+                    <div className="flex justify-center">
+                      <img
+                        src={profile}
+                        className="w-[75px] h-[75px] rounded-md object-cover"
+                        alt="profile"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <label htmlFor="imageUpload" className="flex gap-[15px]">
+                        <BsCloudUpload className="text-3xl" />
+                        <div>
+                          <p>Upload Profile</p>
+                          <p className="text-zinc-300">
+                            Recommendation: Use high-quality JPG, JPEG, SVG or
+                            PNG as your profile
+                          </p>
+                        </div>
+                      </label>
+                    </>
+                  )}
+                </>
+              )}
+
               <input
                 type="file"
+                id="imageUpload"
                 accept="image/*"
                 onChange={(e) => postDetails(e.target.files[0])}
+                className="hidden"
               />
-              <p>
-                Recommendation: Use high-quality JPG, JPEG, SVG or PNG as your
-                profile
-              </p>
             </div>
 
             <input
@@ -168,24 +201,32 @@ const Register = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              className="bg-transparent outline-none border-2 border-gray-300 p-[8px] rounded-md"
             />
 
             {isLoading || loading ? (
               <Spinner message="Activity happening" />
             ) : (
-              <button type="submit" onClick={handleSubmit}>
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                className="bg-slate-800"
+              >
                 Register
               </button>
             )}
           </form>
 
           <Link to={"/login"} style={{ textDecoration: "none" }}>
-            <div className="form__slideOptions">
-              <span>Already have an account ? Login</span>
-              <FiArrowUpRight />
+            <div className="flex gap-[20px] mt-[10px]">
+              <span className="underline text-zinc-300">
+                Already have an account ? Login
+              </span>
+              <FiArrowUpRight className="text-lg" />
             </div>
           </Link>
         </div>
+        {/*  */}
       </div>
     </div>
   );

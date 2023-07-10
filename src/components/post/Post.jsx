@@ -13,6 +13,7 @@ import { BiLocationPlus, BiTrashAlt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost } from "../../features/posts/postSlice";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Post = ({ data }) => {
   const [showComment, setShowComment] = useState(false);
@@ -21,6 +22,7 @@ const Post = ({ data }) => {
   const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleShowComment = () => {
     setShowComment(!showComment);
@@ -34,7 +36,6 @@ const Post = ({ data }) => {
 
     try {
       dispatch(deletePost(id));
-      toast.success("Deleted succesfully");
     } catch (error) {
       toast.error(error);
     }

@@ -7,7 +7,7 @@
   display: flex;
   gap: 10px;
   overflow-x: scroll;
-  width: 900px;
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -16,12 +16,12 @@
   text-align: center;
   color: white;
   display: flex;
+  background-color: red;
 }
 
 .myReel img {
   width: 250px !important;
-  min-width: 50px !important;
-  height: 350px;
+  height: 250px;
   border-radius: 15px;
   object-fit: cover;
 }

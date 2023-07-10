@@ -52,13 +52,23 @@ const Login = () => {
   };
 
   return (
-    <div className="loginWrapper">
-      <div className="loginContainer">
-        <div className="login__formSlide">
-          <h1>Valerian Chat</h1>
+    <div className="w-full h-[100vh]">
+      <img
+        src="https://images.pexels.com/photos/13458334/pexels-photo-13458334.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
+        alt="Background Placeholder"
+        className="w-full h-[100vh] object-cover"
+      />
 
-          <h2>Login</h2>
-          <form onSubmit={handleSubmit}>
+      {/* overlay div */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,.6)]" />
+      <div className="absolute w-full h-full top-0 flex flex-col justify-center items-center text-white">
+        {/* content */}
+        <div className=" w-[98%] xl:w-[40%] 2xl:w-[30%]">
+          <h2 className="mb-[10px] text-center text-3xl">Welcome Back</h2>
+          <p className="mb-[20px] text-zinc-300 text-lg">
+            Please Login To Continue
+          </p>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
             <input
               type="email"
               value={email}
@@ -66,40 +76,41 @@ const Login = () => {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              className="bg-transparent outline-none border-2 border-gray-300 p-[8px] rounded-md"
             />
 
             <input
               type="password"
               name=""
               value={password}
-              placeholder="Create a secure password"
+              placeholder="Enter Your password"
               id=""
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              className="bg-transparent outline-none border-2 border-gray-300 p-[8px] rounded-md"
             />
 
             {/* {isLoading ? <Spinner message="Please wait" /> : ()} */}
-            <button type="submit" onClick={handleSubmit}>
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="bg-slate-800"
+            >
               Login
             </button>
           </form>
 
           <Link to={"/register"} style={{ textDecoration: "none" }}>
-            <div className="loginform__slideOptions">
-              <span>Are you new here ? Register</span>
-              <FiArrowUpRight />
+            <div className="flex gap-[10px] mt-[10px]">
+              <span className="underline text-zinc-300">
+                Are You New Here ? Get Started
+              </span>
+              <FiArrowUpRight className="text-lg" />
             </div>
           </Link>
         </div>
-
         {/*  */}
-        <div className="loginimageSlide">
-          <img
-            src="https://images.pexels.com/photos/2307562/pexels-photo-2307562.jpeg?auto=compress&cs=tinysrgb&w=1600"
-            alt=""
-          />
-        </div>
       </div>
     </div>
   );
